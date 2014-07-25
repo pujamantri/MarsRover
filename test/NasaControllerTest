@@ -1,0 +1,30 @@
+import junit.framework.Assert;
+
+import org.junit.Before;
+import org.junit.Test;
+
+public class NasaControllerTest {
+	private NasaController nasaController;
+
+	@Before
+	public void setup() {
+		nasaController = new NasaController();
+		nasaController.setPlateau(5, 5);
+		nasaController.addMarsRover("Rover1", 1, 2, "N");
+		nasaController.addMarsRover("Rover2", 3, 3, "E");
+	}
+	
+	@Test
+	public void testGivenPositionAndCommandsRoverShouldGetProperPostion() {
+		nasaController.instruct("Rover1", "LMLMLMLMM");
+		nasaController.instruct("Rover2", "MMRMMRMRRM");
+		
+		Assert.assertEquals(1, nasaController.getMarsRover("Rover1").getPosition().x());
+		Assert.assertEquals(3, nasaController.getMarsRover("Rover1").getPosition().y());
+		Assert.assertEquals(Orientation.N, nasaController.getMarsRover("Rover1").getOrientation());
+		
+		Assert.assertEquals(5, nasaController.getMarsRover("Rover2").getPosition().x());
+		Assert.assertEquals(1, nasaController.getMarsRover("Rover2").getPosition().y());
+		Assert.assertEquals(Orientation.E, nasaController.getMarsRover("Rover2").getOrientation());
+	}
+}
